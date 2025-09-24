@@ -6,6 +6,7 @@ const { JSDOM } = require('jsdom');
 let filePath = process.argv[2] || '';
 if (!!!filePath) {
   console.error('文件路径:', filePath);
+  console.error('文件路径:', filePath);
   process.exit(0); // 如果通过命令行参数传递了文件路径，则直接退出
 }
 
