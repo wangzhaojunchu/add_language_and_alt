@@ -1,0 +1,17 @@
+{
+  "name": "Node.js Dev Container",
+  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:20",
+  "settings": {
+
+  },
+  "extensions": [
+    "dbaeumer.vscode-eslint"
+  ],
+  "postCreateCommand": "npm install -g pkg && npm install jsdom",
+  "postStartCommand": "tail -f /dev/null ",
+
+  // "postCreateCommand": "npm install jsdom",
+  "features": {},
+  "forwardPorts": [3000],
+  "remoteUser": "node"
+}
