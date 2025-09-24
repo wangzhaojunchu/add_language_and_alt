@@ -21,26 +21,25 @@ fs.readFile(filePath, 'utf8', (err, html) => {
   const document = dom.window.document;
 
   // 添加 <meta http-equiv="Content-Language">
-  const head = document.querySelector('head') || document.createElement('head');
-  if (!document.querySelector('meta[http-equiv=Content-Language]')) {
+  const head = document.querySelector('head');
+  if (!head?.querySelector('meta[http-equiv=Content-Language]')) {
+    console.log("adding <meta http-equiv='Content-Language'> on file:", filePath);
     const meta = document.createElement('meta');
     meta.setAttribute('http-equiv', 'Content-Language');
     meta.setAttribute('content', 'zh-CN');
     head.prepend(meta);
-    if (!document.querySelector('head')) {
-      document.documentElement.prepend(head);
-    }
   }
 
   // 为每个 <img> 添加 alt="{{alt()}}"
   const images = document.querySelectorAll('img');
   images.forEach((img, index) => {
     if (!!!img.getAttribute('alt')) {
+      console.log("found img missing alt:", img.src || img.outerHTML);
       img.setAttribute('alt', `{{alt(${index})}}`);
     }
   });
   fs.writeFileSync(filePath, dom.serialize(), 'utf8');
   // 输出修改后的 HTML
   process.stdout.write(document.documentElement.outerHTML);
-  process.stdout.write(dom.serialize());
+  // process.stdout.write(dom.serialize());
 });
