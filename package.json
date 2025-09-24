@@ -1,5 +1,10 @@
 {
+  "main": "main.js",
   "dependencies": {
     "jsdom": "^27.0.0"
+  },
+  "scripts": {
+    "start": "node main.js",
+    "test": "ls index.html | node main.js|cat -n"
   }
 }

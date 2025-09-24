@@ -1,3 +1,4 @@
+#! /usr/local/bin/node
 const fs = require('fs');
 const { JSDOM } = require('jsdom');
 
@@ -17,7 +18,7 @@ process.stdin.on('end', () => {
 
     // 添加 <meta http-equiv="Content-Language">
     const head = document.querySelector('head') || document.createElement('head');
-    if (!document.querySelector('meta[http-equiv="Content-Language"]')) {
+    if (!document.querySelector('meta[http-equiv=Content-Language]')) {
       const meta = document.createElement('meta');
       meta.setAttribute('http-equiv', 'Content-Language');
       meta.setAttribute('content', 'zh-CN');
@@ -29,13 +30,14 @@ process.stdin.on('end', () => {
 
     // 为每个 <img> 添加 alt="{{alt()}}"
     const images = document.querySelectorAll('img');
-    images.forEach(img => {
-      if (!img.hasAttribute('alt')) {
-        img.setAttribute('alt', '{{alt()}}');
+    images.forEach((img,index) => {
+      if (!!!img.getAttribute('alt')) {
+        img.setAttribute('alt', `{{alt(${index})}}`);
       }
     });
-
+    fs.writeFileSync(filePath, dom.serialize(), 'utf8');
     // 输出修改后的 HTML
+    process.stdout.write(document.documentElement.outerHTML);
     process.stdout.write(dom.serialize());
   });
 });
