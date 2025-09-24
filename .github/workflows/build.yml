@@ -24,11 +24,26 @@ jobs:
       - name: Install pkg
         run: npm install -g pkg
 
-      - name: Build executable
-        run: pkg main.js --out-path dist
+      # - name: Build executable
+      #   run: pkg main.js --out-path dist
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: executable
+      #     path: dist/
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: SSH & Pull & Restart
+        uses: appleboy/ssh-action@v0.1.10
         with:
-          name: executable
-          path: dist/
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /root/add_language_and_alt
+            git pull
+            
