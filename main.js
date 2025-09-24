@@ -40,6 +40,6 @@ fs.readFile(filePath, 'utf8', (err, html) => {
   });
   fs.writeFileSync(filePath, dom.serialize(), 'utf8');
   // 输出修改后的 HTML
-  process.stdout.write(document.documentElement.outerHTML);
+  // process.stdout.write(document.documentElement.outerHTML);
   // process.stdout.write(dom.serialize());
 });
